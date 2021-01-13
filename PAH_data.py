@@ -205,20 +205,31 @@ def draw_MO(mol, eigenvecs=None, n=0):
     svg = drawer.GetDrawingText().replace('svg:', '')
     display(SVG(svg))
 
-def draw_molecule(mol, names=[]):
+def draw_molecule(mol, legend=None):
     """
     draw molecular orbital onto 2D molecule structure using the rdkit_mol object and the eigenvectors
     """
     from rdkit.Chem.Draw import rdMolDraw2D, MolsToGridImage
     from IPython.display import SVG, display
 
-    if type(names) is list:
+    if type(mol) is list:
         pass
-    elif type(names) is tuple:
+    elif type(mol) is tuple:
         pass
     else:
-        names = [names]
         mol = [mol]
+    
+    if legend is None:
+        legend = ["" for i in range(len(mol))]    
+    elif type(legend) is list:
+        if len(legend) == len(mol):
+            pass
+        else:
+            raise ValueError("mol and legend need to have the same dimension")
+    elif type(legend) is str:
+        legend = [legend]
+    else:
+        raise ValueError("mol and legend need to have the same dimension")
 
     display(MolsToGridImage(mol, useSVG=True, legends=names, subImgSize=(300,300)))
 

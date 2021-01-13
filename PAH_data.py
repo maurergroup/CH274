@@ -204,3 +204,17 @@ def draw_MO(mol, eigenvecs=None, n=0):
     drawer.FinishDrawing()
     svg = drawer.GetDrawingText().replace('svg:', '')
     display(SVG(svg))
+
+def draw_molecule(mol):
+    """
+    draw molecular orbital onto 2D molecule structure using the rdkit_mol object and the eigenvectors
+    """
+    from rdkit.Chem.Draw import rdMolDraw2D
+    from IPython.display import SVG, display
+
+    drawer = rdMolDraw2D.MolDraw2DSVG(400, 200)
+    drawer.DrawMolecule(mol,
+                        )
+    drawer.FinishDrawing()
+    svg = drawer.GetDrawingText().replace('svg:', '')
+    display(SVG(svg))

@@ -231,5 +231,9 @@ def draw_molecule(mol, legend=None):
     else:
         raise ValueError("mol and legend need to have the same dimension")
 
-    display(SVG(MolsToGridImage(mol, useSVG=True, legends=legend, subImgSize=(300,300))))
+    if len(mol)>1:
+        display(SVG(MolsToGridImage(mol, useSVG=True, legends=legend, subImgSize=(300,300))))
+    else:
+        display(MolsToGridImage(mol, useSVG=True, legends=legend, subImgSize=(300,300)))
+
 

@@ -205,7 +205,7 @@ def draw_MO(mol, eigenvecs=None, n=0):
     svg = drawer.GetDrawingText().replace('svg:', '')
     display(SVG(svg))
 
-def draw_molecule(mol, names=None):
+def draw_molecule(mol, names=[]):
     """
     draw molecular orbital onto 2D molecule structure using the rdkit_mol object and the eigenvectors
     """
@@ -220,5 +220,5 @@ def draw_molecule(mol, names=None):
         names = [names]
         mol = [mol]
 
-    display(SVG(MolsToGridImage(mol, useSVG=True, legends=names, subImgSize=(300,300))))
+    display(MolsToGridImage(mol, useSVG=True, legends=names, subImgSize=(300,300)))
 

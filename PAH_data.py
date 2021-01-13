@@ -203,4 +203,4 @@ def draw_MO(mol, eigenvecs=None, n=0):
                         )
     drawer.FinishDrawing()
     svg = drawer.GetDrawingText().replace('svg:', '')
-    display(SVG(svg))
+    display(svg)

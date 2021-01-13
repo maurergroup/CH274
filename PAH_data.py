@@ -205,16 +205,18 @@ def draw_MO(mol, eigenvecs=None, n=0):
     svg = drawer.GetDrawingText().replace('svg:', '')
     display(SVG(svg))
 
-def draw_molecule(mol):
+def draw_molecule(mol, names=None):
     """
     draw molecular orbital onto 2D molecule structure using the rdkit_mol object and the eigenvectors
     """
-    from rdkit.Chem.Draw import rdMolDraw2D
+    from rdkit.Chem.Draw import rdMolDraw2D, MolsToGridImage
     from IPython.display import SVG, display
 
-    drawer = rdMolDraw2D.MolDraw2DSVG(400, 200)
-    drawer.DrawMolecule(mol,
-                        )
-    drawer.FinishDrawing()
-    svg = drawer.GetDrawingText().replace('svg:', '')
-    display(SVG(svg))
+    if type(names) is list:
+        pass
+    elif type(names) is tuple:
+        pass
+    else:
+        names = [names]
+
+    display(MolsToGridImage([mol_with_atom_index(mol], useSVG=True, legends=names, subImgSize=(400,400)))

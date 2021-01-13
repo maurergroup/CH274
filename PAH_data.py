@@ -218,5 +218,7 @@ def draw_molecule(mol, names=None):
         pass
     else:
         names = [names]
+        mol = [mol]
 
-    display(MolsToGridImage([mol_with_atom_index(mol], useSVG=True, legends=names, subImgSize=(400,400)))
+    display(SVG(MolsToGridImage(mol, useSVG=True, legends=names, subImgSize=(300,300))))
+

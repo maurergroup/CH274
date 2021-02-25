@@ -205,33 +205,50 @@ def draw_MO(mol, eigenvecs=None, n=0):
     svg = drawer.GetDrawingText().replace('svg:', '')
     display(SVG(svg))
 
-def draw_molecule(mol, legend=None):
+def draw_molecule(mol, legend=None, imgsize=(300,300)):
     """
-    draw molecular orbital onto 2D molecule structure using the rdkit_mol object and the eigenvectors
+    Draw 2D molecules.
+    
+    Parameters
+    ----------
+    mol : rdkit.Chem.rdchem.Mol or iterable of rdkit.Chem.rdchem.Mols
+        Input data containing the object(s) required to draw the molecule(s).
+    legend : str or iterable of strs, optional
+        The title that will be printed below each molecule.
+        Must be the same length as mol.
+    imgsize : tuple of two ints, optional
+        The size of the printed image.
+    
+    Returns
+    -------
+    nothing, the function displays the image(s) of molecule(s) stored in mol.
     """
     from rdkit.Chem.Draw import rdMolDraw2D, MolsToGridImage
     from IPython.display import SVG, display
-
-    if type(mol) is list:
-        pass
-    elif type(mol) is tuple:
-        pass
-    else:
+    from numpy import ndarray
+    
+    #if mol is not an iterable, turn it into one
+    if type(mol) not in [list, tuple, ndarray]:
         mol = [mol]
     
-    if legend is None:
-        legend = ["" for i in range(len(mol))]    
-    elif type(legend) is list:
-        if len(legend) == len(mol):
-            pass
+    #if legend is None, it can be ignored
+    if legend is not None:
+
+        if type(legend) in [list, tuple, ndarray]:
+            
+            if type(legend) is ndarray:
+                legend = legend.tolist() #MolsToGridImage has issues with np arrays
+
+            if len(legend) != len(mol):
+                raise ValueError("mol and legend need to have the same dimension")
+            
+            legend = [str(i) for i in legend] #ensure legend is a list of strings 
+
+        elif type(legend) is str:
+            legend = [legend for __ in mol] #
+
         else:
-            raise ValueError("mol and legend need to have the same dimension")
-    elif type(legend) is str:
-        legend = [legend]
-    else:
-        raise ValueError("mol and legend need to have the same dimension")
-
+            raise TypeError("legend must be None, list, tuple, str or numpy.ndarray.")   
     
-    display(MolsToGridImage(mol, useSVG=True, legends=legend, subImgSize=(300,300)))
-
-
+    #display(SVG(MolsToGridImage(mol, useSVG=True, legends=legend, subImgSize=(300,300))))
+    display(MolsToGridImage(mol, useSVG=True, legends=legend, subImgSize=imgsize) )
